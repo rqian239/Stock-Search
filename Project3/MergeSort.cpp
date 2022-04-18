@@ -61,6 +61,7 @@ void mergeSort(vector<float>& input, int left, int right) {
 
 }
 
+/*
 int main() {
 
     vector<float> test = { -52.2, 1.2, 5.1, 12.5, 1.1, 12.4, -0.25, 141.253131 };
@@ -74,3 +75,4 @@ int main() {
 
     return 0;
 }
+ */

@@ -111,11 +111,11 @@ int main() {
         iterEnd = stockPtr->dates.find(end);
         bool valid = true;
 
-        if (iterStart == Dow30.at(index)->returnDates().end()) {
+        if (iterStart == stockPtr->dates.end()) {
             cout << "Your start date is invalid (you chose a day when the market was closed)." << endl;
             valid = false;
         }
-        if (iterEnd == Dow30.at(index)->returnDates().end()) {
+        if (iterEnd == stockPtr->dates.end()) {
             cout << "Your end date is invalid (you chose a day when the market was closed)." << endl;
             valid = false;
         }

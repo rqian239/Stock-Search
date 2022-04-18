@@ -10,7 +10,7 @@ void merge(vector<float>& input, int left, int middle, int right) {
     int j = middle + 1; //starting index for right subarray
     int k = left; //starting array for temporary array;
 
-    int sizeOfTemp = right - left + 1;
+    int sizeOfTemp = input.size();
 
     float* temp = new float[sizeOfTemp];
 
@@ -52,9 +52,7 @@ void merge(vector<float>& input, int left, int middle, int right) {
 
 
 void mergeSort(vector<float>& input, int left, int right) {
-
     if (left < right) {
-
         int middle = (left + right) / 2;
         mergeSort(input, left, middle);
         mergeSort(input, middle + 1, right);

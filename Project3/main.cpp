@@ -5,7 +5,8 @@
 #include <iomanip>
 #include "Stock.h"
 #include "DayData.h"
-#include "heap.h"
+#include "Heap.h"
+#include "Functions.h"
 
 using namespace std;
 

@@ -5,11 +5,13 @@
 #include <iomanip>
 #include "Stock.h"
 #include "DayData.h"
-#include "heap.h"
+#include "Heap.h"
+#include "Functions.h"
 
 
 using namespace std;
 
+//hello
 int main() {
 
     cout << "This application allows you to see the top (or worst) performing days of a particular stock for a given criteria." << endl;

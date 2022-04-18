@@ -49,8 +49,6 @@ void merge(vector<float>& input, int left, int middle, int right) {
 
 
 }
-
-
 void mergeSort(vector<float>& input, int left, int right) {
 
     if (left < right) {

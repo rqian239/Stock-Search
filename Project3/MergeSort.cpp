@@ -50,9 +50,7 @@ void merge(vector<float>& input, int left, int middle, int right) {
 
 }
 void mergeSort(vector<float>& input, int left, int right) {
-
     if (left < right) {
-
         int middle = (left + right) / 2;
         mergeSort(input, left, middle);
         mergeSort(input, middle + 1, right);

@@ -87,18 +87,13 @@ int main() {
     cout << "Please input the number of days you want to search for. (i.e. Top X days with most returns)" << endl;
     cin >> numDays;
 
-    int algoSelection;
-    cout << "Please choose which algorithm you want to execute." << endl;
-    cout << "1. Heap Sort" << endl;
-    cout << "2. Merge Sort" << endl;
-    cin >> algoSelection;
-
     int start = dateConverter(startDate);
     int end = dateConverter(endDate);
 
-    //HEAP SORT
+    //HEAP SORT and MERGESORT
     if (menuSelection == 1) {     //MOST RETURNS
 
+        //HEAP SORT
         Stock* stockPtr = Dow30.at(index);
         //map<int, DayData>::iterator iterStart = Dow30.at(index)->returnDates().begin();
         //map<int, DayData>::iterator iterEnd = Dow30.at(index)->returnDates().begin();
@@ -163,7 +158,6 @@ int main() {
     else if (menuSelection == 4) {
 
     }
-
 
 
     return 0;

@@ -7,6 +7,7 @@
 #include "DayData.h"
 #include "Heap.h"
 #include "Functions.h"
+#include "MergeSort.h"
 
 
 using namespace std;
@@ -120,7 +121,6 @@ int main() {
             //map<int, DayData>::iterator copyIter = copyOfDates.begin();
 
             iterStart = stockPtr->dates.find(start);
-            cout << iterStart->first << endl;
 
             for (; iterStart != iterEnd; ++iterStart) {
 
@@ -131,12 +131,38 @@ int main() {
 
             }
 
-            //TODO: Heap destructor?
+            //TODO: Heap destructor and MERGESORT DESTRUCTOR?
 
-
+            cout << endl << "HEAP SORT:" << endl;
             for (int i = 1; i <= numDays; i++) {
 
                 pair<float, DayData> temp = maxH->Extract();
+                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
+
+            }
+
+
+
+
+            //MERGE SORT
+            MergeSort* mrgSrt = new MergeSort();
+            iterStart = stockPtr->dates.find(start);
+
+            for (; iterStart != iterEnd; ++iterStart) {
+
+                pair<float, DayData> temp;
+                temp.first = iterStart->second.percentReturn;
+                temp.second = iterStart->second;
+                mrgSrt->Insert(temp);
+
+            }
+
+
+            mrgSrt->Sort();
+            cout << endl << "MERGE SORT:" << endl;
+            for (int i = 1; i <= numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
                 cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
                 cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
 
@@ -150,7 +176,6 @@ int main() {
             MinHeap* minH = new MinHeap();
 
             iterStart = stockPtr->dates.find(start);
-            cout << iterStart->first << endl;
 
             for (; iterStart != iterEnd; ++iterStart) {
 
@@ -161,6 +186,7 @@ int main() {
 
             }
 
+            cout << endl << "HEAP SORT:" << endl;
             for (int i = 1; i <= numDays; i++) {
 
                 pair<float, DayData> temp = minH->Extract();
@@ -168,13 +194,18 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
 
             }
+
+
+
+
+            //MERGE SORT
         }
         else if (menuSelection == 3) {
 
             MaxHeap* maxH = new MaxHeap();
 
             iterStart = stockPtr->dates.find(start);
-            cout << iterStart->first << endl;
+            
 
             for (; iterStart != iterEnd; ++iterStart) {
 
@@ -184,9 +215,9 @@ int main() {
                 maxH->Insert(temp);
             }
 
-            //TODO: Heap destructor?
+            //TODO: Heap destructor and MERGESORT DESTRUCTOR?
 
-
+            cout << endl << "HEAP SORT:" << endl;
             for (int i = 1; i <= numDays; i++) {
 
                 pair<float, DayData> temp = maxH->Extract();
@@ -194,13 +225,20 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
 
             }
+
+
+
+
+            //MERGE SORT
+
+
+
         }
         else if (menuSelection == 4) {
 
             MinHeap* minH = new MinHeap();
 
             iterStart = stockPtr->dates.find(start);
-            cout << iterStart->first << endl;
 
             for (; iterStart != iterEnd; ++iterStart) {
 
@@ -212,7 +250,7 @@ int main() {
 
             //TODO: Heap destructor?
 
-
+            cout << endl << "HEAP SORT:" << endl;
             for (int i = 1; i <= numDays; i++) {
 
                 pair<float, DayData> temp = minH->Extract();
@@ -220,6 +258,11 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
 
             }
+
+
+
+
+            //MERGE SORT
         }
     }
 

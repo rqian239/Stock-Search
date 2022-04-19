@@ -150,6 +150,7 @@
     <ClInclude Include="Functions.h" />
     <ClInclude Include="DayData.h" />
     <ClInclude Include="Heap.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="Stock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

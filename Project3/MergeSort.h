@@ -12,7 +12,6 @@ struct MergeSort {
 public:
 	void Insert(pair<float, DayData> data);
 	void Sort();
-	pair<float, DayData> GetIndex(int i);
 
 
 private:

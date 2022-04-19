@@ -199,13 +199,34 @@ int main() {
 
 
             //MERGE SORT
+            MergeSort* mrgSrt = new MergeSort();
+            iterStart = stockPtr->dates.find(start);
+
+            for (; iterStart != iterEnd; ++iterStart) {
+
+                pair<float, DayData> temp;
+                temp.first = iterStart->second.percentReturn;
+                temp.second = iterStart->second;
+                mrgSrt->Insert(temp);
+
+            }
+
+
+            mrgSrt->Sort();
+            cout << endl << "MERGE SORT:" << endl;
+            for (int i = 1; i <= numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(i - 1);
+                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
+
+            }
         }
         else if (menuSelection == 3) {
 
             MaxHeap* maxH = new MaxHeap();
 
             iterStart = stockPtr->dates.find(start);
-            
+
 
             for (; iterStart != iterEnd; ++iterStart) {
 
@@ -230,7 +251,27 @@ int main() {
 
 
             //MERGE SORT
+            MergeSort* mrgSrt = new MergeSort();
+            iterStart = stockPtr->dates.find(start);
 
+            for (; iterStart != iterEnd; ++iterStart) {
+
+                pair<float, DayData> temp;
+                temp.first = iterStart->second.percentNetChange;
+                temp.second = iterStart->second;
+                mrgSrt->Insert(temp);
+
+            }
+
+
+            mrgSrt->Sort();
+            cout << endl << "MERGE SORT:" << endl;
+            for (int i = 1; i <= numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
+                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
+
+            }
 
 
         }
@@ -263,11 +304,29 @@ int main() {
 
 
             //MERGE SORT
+            MergeSort* mrgSrt = new MergeSort();
+            iterStart = stockPtr->dates.find(start);
+
+            for (; iterStart != iterEnd; ++iterStart) {
+
+                pair<float, DayData> temp;
+                temp.first = iterStart->second.percentNetChange;
+                temp.second = iterStart->second;
+                mrgSrt->Insert(temp);
+
+            }
+
+
+            mrgSrt->Sort();
+            cout << endl << "MERGE SORT:" << endl;
+            for (int i = 1; i <= numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(i - 1);
+                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
+
+            }
         }
     }
-
-   
-
 
     return 0;
 }

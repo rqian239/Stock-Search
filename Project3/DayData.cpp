@@ -1,7 +1,8 @@
 #include "DayData.h"
 
-DayData::DayData(int date, float open, float close, float high, float low) {
+DayData::DayData(string ticker, int date, float open, float close, float high, float low) {
 
+    this->ticker = ticker;
     this->date = date;
     this->open = open;
     this->close = close;

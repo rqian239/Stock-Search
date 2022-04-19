@@ -47,7 +47,7 @@ void loadData(string ticker, vector<Stock*>& Dow30, int index) {
             low = stof(lowString);
             close = stof(closeString);
 
-            Dow30.at(index)->AddDate(date, DayData(date, open, close, high, low));
+            Dow30.at(index)->AddDate(date, DayData(ticker, date, open, close, high, low));
 
         }
 

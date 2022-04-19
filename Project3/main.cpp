@@ -16,48 +16,56 @@ using namespace std;
 
 int main() {
 
-    cout << "This application allows you to see the top (or worst) performing days of a particular stock for a given criteria." << endl;
-    cout << "You will be asked to enter a stock ticker, the criteria to sort by, a date range, as well as how many days to return." << endl;
+    cout
+            << "This application allows you to see the top (or worst) performing days of a particular stock for a given criteria."
+            << endl;
+    cout
+            << "You will be asked to enter a stock ticker, the criteria to sort by, a date range, as well as how many days to return."
+            << endl;
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
 
     cout << "Please enter a valid stock ticker from the Dow 30." << endl;
     cout << "Refer to \'cnbc.com/dow-30\' for available stocks." << endl;
-    //cout << "Enter \'EXIT\' at any entry to exit the program." << endl << endl;
+    cout << "Enter all the stocks you want to search. Type \"DONE\" when you are finished." << endl;
 
     string ticker;
-    vector<Stock*> Dow30;
+    vector<Stock *> Dow30;
     bool check = true;
     int index = 0;
 
-    while (check) {
+    while (ticker != "DONE") {
         cin >> ticker;
         index = 0;
         bool found = findStock(ticker, Dow30, index);
 
-        if (!found) {
 
-            //Check if this is a valid stock
-            string filePath = "../excel/" + ticker + ".csv";
-            ifstream excel(filePath);
+        //Check if this is a valid stock
+        string filePath = "../excel/" + ticker + ".csv";
+        ifstream excel(filePath);
 
-            if (excel.is_open()) {
-                check = false;
-                excel.close();
-                //create stock class and load data
-                Stock* addedStock = new Stock(ticker);
+        if (excel.is_open()) {
+            excel.close();
+            //create stock class and load data
+            if (!found) {
+                Stock *addedStock = new Stock(ticker);
                 Dow30.push_back(addedStock);
                 index = Dow30.size() - 1;
 
                 loadData(ticker, Dow30, index);
             }
-            else {
+        } else {
+            if (ticker != "DONE") {
                 cout << "\'" + ticker + "\'" << " is not a valid ticker symbol." << endl;
                 cout << "Try again!" << endl;
             }
-
         }
+
+        if (ticker != "DONE") {
+            cout << "Would you like to input another stock? Type \"DONE\" if you're finished." << endl;
+        }
+
     }
-    
+
 
     //print debugging
     /*
@@ -67,7 +75,9 @@ int main() {
     }
      */
 
-    cout << endl << "You will now be asked for two dates which will serve as a range in which your data will be searched" << endl;
+    cout << endl
+         << "You will now be asked for two dates which will serve as a range in which your data will be searched"
+         << endl;
     cout << "Data is available from 2017-04-03 to 2022-03-31. Only valid ranges are accepted." << endl;
 
     //TODO: Validate dates and date range
@@ -90,297 +100,331 @@ int main() {
         check = false;
     }
 
-     cout << "You selected to search from " << startDate << " to " << endDate << "." << endl << endl;
+    cout << "You selected to search from " << startDate << " to " << endDate << "." << endl << endl;
 
-     int menuSelection;
-     int numDays;
-     int start;
-     int end;
-     bool valid;
-     Stock* stockPtr = Dow30.at(index);
-     map<int, DayData>::iterator iterStart = stockPtr->dates.begin();
-     map<int, DayData>::iterator iterEnd = stockPtr->dates.begin();
-     check = true;
+    int menuSelection;
+    int numDays;
+    int start;
+    int end;
+    bool valid;
+    Stock *stockPtr = Dow30.at(0);
+    map<int, DayData>::iterator iterStart = stockPtr->dates.begin();
+    map<int, DayData>::iterator iterEnd = stockPtr->dates.begin();
 
-     while (check) {
-         cout << "Please select one of the following criteria to search for." << endl;
-         cout << "1. Most Returns" << endl;
-         cout << "2. Least Returns (Most Losses)" << endl;
-         cout << "3. Most Net Change (Measure for Volatility)" << endl;
-         cout << "4. Least Net Change (Measure for Stability)" << endl;
-         cin >> menuSelection;
-         if (menuSelection <= 0 || menuSelection > 4) {
-             cout << "Invalid input!" << endl;
-             continue;
-         }
+    bool exceed = false;
 
-         //TODO: Check that number of days are valid (can fit in range)
-         cout << "Please input the number of days you want to search for. (i.e. Top X days with most returns)" << endl;
-         cin >> numDays;
+    check = true;
+    while (check) {
+        cout << "Please select one of the following criteria to search for." << endl;
+        cout << "1. Most Returns" << endl;
+        cout << "2. Least Returns (Most Losses)" << endl;
+        cout << "3. Most Net Change (Measure for Volatility)" << endl;
+        cout << "4. Least Net Change (Measure for Stability)" << endl;
+        cin >> menuSelection;
+        if (menuSelection <= 0 || menuSelection > 4) {
+            cout << "Invalid input!" << endl;
+            continue;
+        }
+
+        //TODO: Check that number of days are valid (can fit in range)
+        cout << "Please input the number of days you want to search for. (i.e. Top X days with most returns)" << endl;
+        cin >> numDays;
 
 
-         start = dateConverter(startDate);
-         end = dateConverter(endDate);
+        start = dateConverter(startDate);
+        end = dateConverter(endDate);
+        check = false;
 
-         iterStart = stockPtr->dates.find(start);
-         iterEnd = stockPtr->dates.find(end);
-         valid = true;
-         check = false;
+        if (iterStart == stockPtr->dates.end() || iterEnd == stockPtr->dates.end()) {
+            cout << "Your start date is invalid (you chose a day when the market was closed)." << endl << "Try again."
+                 << endl;
+            check = true;
+            valid = false;
+        }
 
-         if (iterStart == stockPtr->dates.end() || iterEnd == stockPtr->dates.end()) {
-             cout << "Your start date is invalid (you chose a day when the market was closed)." << endl << "Try again." << endl;
-             check = true;
-             valid = false;
-         }
-     }
+    }
 
-    
+    MaxHeap *maxH = new MaxHeap();
+    MergeSort *mrgSrt = new MergeSort();
+    MinHeap *minH = new MinHeap();
 
-   
+    int heapTime;
+    int mergeTime;
     timer clock;
 
-    //HEAP SORT and MERGESORT for each Selection
-    if (valid) {
+    for (int i = 0; i < Dow30.size(); i++) {
 
-        if (menuSelection == 1) {     //MOST RETURNS
+        stockPtr = Dow30.at(i);
+        iterStart = stockPtr->dates.find(start);
+        iterEnd = stockPtr->dates.find(end);
+        valid = true;
+        check = false;
 
-            /* ====== HEAPSORT ====== */
-            clock.start();
-            MaxHeap* maxH = new MaxHeap();
 
-            //map<int, DayData> copyOfDates = Dow30.at(index)->returnDates();
-            //map<int, DayData>::iterator copyIter = copyOfDates.begin();
 
-            iterStart = stockPtr->dates.find(start);
+        //HEAP SORT and MERGESORT for each Selection
+        if (valid) {
 
-            for (; iterStart != iterEnd; ++iterStart) {
+            if (menuSelection == 1) {     //MOST RETURNS
 
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentReturn;
-                temp.second = iterStart->second;
-                maxH->Insert(temp);
+                /* ====== HEAPSORT ====== */
 
+                //map<int, DayData> copyOfDates = Dow30.at(index)->returnDates();
+                //map<int, DayData>::iterator copyIter = copyOfDates.begin();
+
+                iterStart = stockPtr->dates.find(start);
+
+                int daysWithinRange = 0;
+
+                clock.start();
+                for (; iterStart != iterEnd; ++iterStart) {
+
+                    pair<float, DayData> temp;
+                    temp.first = iterStart->second.percentReturn;
+                    temp.second = iterStart->second;
+                    maxH->Insert(temp);
+                    daysWithinRange++;
+
+                }
+                clock.stop();
+                heapTime += clock.getTime();
+                clock.reset();
+
+                //TODO: Heap destructor and MERGESORT DESTRUCTOR?
+                if (numDays < daysWithinRange) {
+
+                    //MERGE SORT
+                    iterStart = stockPtr->dates.find(start);
+
+                    clock.start();
+                    for (; iterStart != iterEnd; ++iterStart) {
+
+                        pair<float, DayData> temp;
+                        temp.first = iterStart->second.percentReturn;
+                        temp.second = iterStart->second;
+                        mrgSrt->Insert(temp);
+
+                    }
+
+                    clock.stop();
+                    mergeTime += clock.getTime();
+                    clock.reset();
+
+
+                } else {
+                    cout
+                            << "Error: The number of days you want to display exceed the amount of days within your range!"
+                            << endl;
+                    exceed = true;
+                    break;
+                }
+            } else if (menuSelection == 2) {
+
+                //HEAP SORT
+
+                iterStart = stockPtr->dates.find(start);
+
+                int daysWithinRange = 0;
+
+                clock.start();
+                for (; iterStart != iterEnd; ++iterStart) {
+
+                    pair<float, DayData> temp;
+                    temp.first = iterStart->second.percentReturn;
+                    temp.second = iterStart->second;
+                    minH->Insert(temp);
+                    daysWithinRange++;
+
+                }
+                clock.stop();
+                heapTime += clock.getTime();
+                clock.reset();
+
+                if (numDays < daysWithinRange) {
+
+
+                    //MERGE SORT
+                    iterStart = stockPtr->dates.find(start);
+
+                    clock.start();
+                    for (; iterStart != iterEnd; ++iterStart) {
+
+                        pair<float, DayData> temp;
+                        temp.first = iterStart->second.percentReturn;
+                        temp.second = iterStart->second;
+                        mrgSrt->Insert(temp);
+
+                    }
+
+
+                    clock.stop();
+                    mergeTime += clock.getTime();
+                    clock.reset();
+
+                } else {
+                    cout
+                            << "Error: The number of days you want to display exceed the amount of days within your range!"
+                            << endl;
+                    exceed = true;
+                    break;
+                }
+            } else if (menuSelection == 3) {
+
+                iterStart = stockPtr->dates.find(start);
+
+                int daysWithinRange = 0;
+
+                clock.start();
+                for (; iterStart != iterEnd; ++iterStart) {
+
+                    pair<float, DayData> temp;
+                    temp.first = iterStart->second.percentNetChange;
+                    temp.second = iterStart->second;
+                    maxH->Insert(temp);
+                    daysWithinRange++;
+                }
+
+                clock.stop();
+                heapTime += clock.getTime();
+                clock.reset();
+
+                //TODO: Heap destructor and MERGESORT DESTRUCTOR?
+
+
+                if (numDays < daysWithinRange) {
+                    //MERGE SORT
+                    iterStart = stockPtr->dates.find(start);
+
+                    clock.start();
+                    for (; iterStart != iterEnd; ++iterStart) {
+
+                        pair<float, DayData> temp;
+                        temp.first = iterStart->second.percentNetChange;
+                        temp.second = iterStart->second;
+                        mrgSrt->Insert(temp);
+
+                    }
+
+                    clock.stop();
+                    mergeTime += clock.getTime();
+                    clock.reset();
+
+                } else {
+                    cout
+                            << "Error: The number of days you want to display exceed the amount of days within your range!"
+                            << endl;
+                    exceed = true;
+                    break;
+                }
             }
+            else if (menuSelection == 4) {
 
-            //TODO: Heap destructor and MERGESORT DESTRUCTOR?
+                iterStart = stockPtr->dates.find(start);
 
-            cout << endl << "HEAP SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
+                int daysWithinRange = 0;
 
-                pair<float, DayData> temp = maxH->Extract();
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
+                clock.start();
+                for (; iterStart != iterEnd; ++iterStart) {
 
+                    pair<float, DayData> temp;
+                    temp.first = iterStart->second.percentNetChange;
+                    temp.second = iterStart->second;
+                    minH->Insert(temp);
+                    daysWithinRange++;
+                }
+                clock.stop();
+                heapTime += clock.getTime();
+                clock.reset();
+                //TODO: Heap destructor?
+
+                if (numDays < daysWithinRange) {
+                    //MERGE SORT
+                    iterStart = stockPtr->dates.find(start);
+
+                    clock.start();
+                    for (; iterStart != iterEnd; ++iterStart) {
+
+                        pair<float, DayData> temp;
+                        temp.first = iterStart->second.percentNetChange;
+                        temp.second = iterStart->second;
+                        mrgSrt->Insert(temp);
+
+                    }
+
+                    clock.stop();
+                    mergeTime += clock.getTime();
+                    clock.reset();
+                } else {
+                    cout
+                            << "Error: The number of days you want to display exceed the amount of days within your range!"
+                            << endl;
+                    exceed = true;
+                    break;
+                }
             }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
-
-
-
-
-            //MERGE SORT
-            clock.start();
-            MergeSort* mrgSrt = new MergeSort();
-            iterStart = stockPtr->dates.find(start);
-
-            for (; iterStart != iterEnd; ++iterStart) {
-
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentReturn;
-                temp.second = iterStart->second;
-                mrgSrt->Insert(temp);
-
-            }
-
-
-            mrgSrt->Sort();
-            cout << endl << "MERGE SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
-                pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
-
-            }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
-            
-
-
-        }
-        else if (menuSelection == 2) {
-
-            //HEAP SORT
-            clock.start();
-            MinHeap* minH = new MinHeap();
-
-            iterStart = stockPtr->dates.find(start);
-
-            for (; iterStart != iterEnd; ++iterStart) {
-
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentReturn;
-                temp.second = iterStart->second;
-                minH->Insert(temp);
-
-            }
-
-            cout << endl << "HEAP SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
-
-                pair<float, DayData> temp = minH->Extract();
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
-
-            }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
-
-            //MERGE SORT
-            clock.start();
-            MergeSort* mrgSrt = new MergeSort();
-            iterStart = stockPtr->dates.find(start);
-
-            for (; iterStart != iterEnd; ++iterStart) {
-
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentReturn;
-                temp.second = iterStart->second;
-                mrgSrt->Insert(temp);
-
-            }
-
-
-            mrgSrt->Sort();
-            cout << endl << "MERGE SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
-                pair<float, DayData> temp = mrgSrt->vec.at(i - 1);
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
-
-            }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
-        }
-        else if (menuSelection == 3) {
-            clock.start();
-            MaxHeap* maxH = new MaxHeap();
-
-            iterStart = stockPtr->dates.find(start);
-
-
-            for (; iterStart != iterEnd; ++iterStart) {
-
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentNetChange;
-                temp.second = iterStart->second;
-                maxH->Insert(temp);
-            }
-
-            //TODO: Heap destructor and MERGESORT DESTRUCTOR?
-
-            cout << endl << "HEAP SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
-
-                pair<float, DayData> temp = maxH->Extract();
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
-
-            }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
-
-
-            //MERGE SORT
-            clock.start();
-            MergeSort* mrgSrt = new MergeSort();
-            iterStart = stockPtr->dates.find(start);
-
-            for (; iterStart != iterEnd; ++iterStart) {
-
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentNetChange;
-                temp.second = iterStart->second;
-                mrgSrt->Insert(temp);
-
-            }
-
-
-            mrgSrt->Sort();
-            cout << endl << "MERGE SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
-                pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
-
-            }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
-
-        }
-        else if (menuSelection == 4) {
-            clock.start();
-            MinHeap* minH = new MinHeap();
-
-            iterStart = stockPtr->dates.find(start);
-
-            for (; iterStart != iterEnd; ++iterStart) {
-
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentNetChange;
-                temp.second = iterStart->second;
-                minH->Insert(temp);
-            }
-
-            //TODO: Heap destructor?
-
-            cout << endl << "HEAP SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
-
-                pair<float, DayData> temp = minH->Extract();
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
-
-            }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
-
-
-
-            //MERGE SORT
-            clock.start();
-            MergeSort* mrgSrt = new MergeSort();
-            iterStart = stockPtr->dates.find(start);
-
-            for (; iterStart != iterEnd; ++iterStart) {
-
-                pair<float, DayData> temp;
-                temp.first = iterStart->second.percentNetChange;
-                temp.second = iterStart->second;
-                mrgSrt->Insert(temp);
-
-            }
-
-
-            mrgSrt->Sort();
-            cout << endl << "MERGE SORT:" << endl;
-            for (int i = 1; i <= numDays; i++) {
-                pair<float, DayData> temp = mrgSrt->vec.at(i - 1);
-                cout << i << ". " << ticker << " " << convertIntDateToString(temp.second.date) << " ";
-                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
-
-            }
-            clock.stop();
-            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
-            clock.reset();
         }
     }
+
+    if(!exceed) {
+
+        clock.reset();
+        clock.start();
+        cout << endl << "HEAP SORT:" << endl;
+        if (menuSelection == 1 || menuSelection == 3) {
+            for (int i = 1; i <= numDays; i++) {
+
+                pair<float, DayData> temp = maxH->Extract();
+                cout << i << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
+
+            }
+            clock.stop();
+            heapTime += clock.getTime();
+            cout << endl << "Time: " << heapTime << " ms" << endl;
+        } else {
+            for (int i = 1; i <= numDays; i++) {
+
+                pair<float, DayData> temp = minH->Extract();
+                cout << i << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
+
+            }
+            clock.stop();
+            heapTime += clock.getTime();
+            cout << endl << "Time: " << heapTime << " ms" << endl;
+        }
+
+        clock.reset();
+        clock.start();
+        mrgSrt->Sort();
+        if (menuSelection == 1 || menuSelection == 3) {
+            cout << endl << "MERGE SORT:" << endl;
+            for (int i = 1; i <= numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
+                cout << i << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
+
+            }
+            clock.stop();
+            mergeTime += clock.getTime();
+            cout << endl << "Time: " << mergeTime << " ms" << endl;
+        } else {
+            cout << endl << "MERGE SORT:" << endl;
+            for (int i = 0; i < numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(i);
+                cout << i + 1 << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
+
+            }
+            clock.stop();
+            mergeTime += clock.getTime();
+            cout << endl << "Time: " << mergeTime << " ms" << endl;
+        }
+    } else {
+        cout << "Program terminated: invalid input!" << endl;
+    }
+
+
 
     return 0;
 }

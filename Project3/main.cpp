@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <iomanip>
+#include <time.h>
 #include "Stock.h"
 #include "DayData.h"
 #include "Heap.h"
@@ -108,6 +109,7 @@ int main() {
         valid = false;
     }
    
+    timer clock;
 
     //HEAP SORT and MERGESORT for each Selection
     if (valid) {
@@ -115,6 +117,7 @@ int main() {
         if (menuSelection == 1) {     //MOST RETURNS
 
             /* ====== HEAPSORT ====== */
+            clock.start();
             MaxHeap* maxH = new MaxHeap();
 
             //map<int, DayData> copyOfDates = Dow30.at(index)->returnDates();
@@ -141,11 +144,15 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
 
             }
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
 
 
 
 
             //MERGE SORT
+            clock.start();
             MergeSort* mrgSrt = new MergeSort();
             iterStart = stockPtr->dates.find(start);
 
@@ -167,12 +174,17 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
 
             }
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
+            
 
 
         }
         else if (menuSelection == 2) {
 
             //HEAP SORT
+            clock.start();
             MinHeap* minH = new MinHeap();
 
             iterStart = stockPtr->dates.find(start);
@@ -194,11 +206,12 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
 
             }
-
-
-
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
 
             //MERGE SORT
+            clock.start();
             MergeSort* mrgSrt = new MergeSort();
             iterStart = stockPtr->dates.find(start);
 
@@ -220,9 +233,12 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentReturn << "%" << endl;
 
             }
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
         }
         else if (menuSelection == 3) {
-
+            clock.start();
             MaxHeap* maxH = new MaxHeap();
 
             iterStart = stockPtr->dates.find(start);
@@ -246,11 +262,13 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
 
             }
-
-
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
 
 
             //MERGE SORT
+            clock.start();
             MergeSort* mrgSrt = new MergeSort();
             iterStart = stockPtr->dates.find(start);
 
@@ -272,11 +290,13 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
 
             }
-
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
 
         }
         else if (menuSelection == 4) {
-
+            clock.start();
             MinHeap* minH = new MinHeap();
 
             iterStart = stockPtr->dates.find(start);
@@ -299,11 +319,14 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
 
             }
-
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
 
 
 
             //MERGE SORT
+            clock.start();
             MergeSort* mrgSrt = new MergeSort();
             iterStart = stockPtr->dates.find(start);
 
@@ -325,6 +348,9 @@ int main() {
                 cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
 
             }
+            clock.stop();
+            cout << endl << "Time: " << clock.getTime() << " ms" << endl;
+            clock.reset();
         }
     }
 

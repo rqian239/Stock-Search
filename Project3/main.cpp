@@ -141,7 +141,7 @@ int main() {
 
             //TODO: Heap destructor?
 
-            cout << "Heap "
+            
             for (int i = 1; i <= numDays; i++) {
 
                 pair<float, DayData> temp = maxH->Extract();

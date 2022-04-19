@@ -12,7 +12,6 @@
 
 using namespace std;
 
-//hello
 int main() {
 
     cout << "This application allows you to see the top (or worst) performing days of a particular stock for a given criteria." << endl;

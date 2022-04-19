@@ -384,7 +384,7 @@ int main() {
         }
 
 
-        cout << endl << endl;
+
         cout << "Would you like to restart the program with new input?" << endl;
         cout << "Enter \'y\' to continue or \'n\' to exit: ";
         string answer;

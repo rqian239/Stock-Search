@@ -21,6 +21,7 @@ public:
 	void Insert(pair<float, DayData> data);
 	void HeapifyDown(int rootIndex);
 	void HeapifyUp(int rootIndex);
+    ~MinHeap();
 };
 
 class MaxHeap {
@@ -32,5 +33,6 @@ public:
 	void Insert(pair<float, DayData> data);
 	void HeapifyDown(int rootIndex);
 	void HeapifyUp(int rootIndex);
+    ~MaxHeap();
 
 };

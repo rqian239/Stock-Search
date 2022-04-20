@@ -16,16 +16,16 @@ using namespace std;
 
 int main() {
 
+    cout << "Welcome to a stock search application created by Dylan DePasquale, Douglas Ta, and Richard Qian." << endl << endl;
     cout
-            << "This application allows you to see the top (or worst) performing days of a particular stock for a given criteria."
+            << "This application allows you to see the best (or worst) performing days of a particular stock for a given criteria."
             << endl;
     cout
             << "You will be asked to enter a stock ticker, the criteria to sort by, a date range, as well as how many days to return."
-            << endl;
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+            << endl << endl;
 
     cout << "Please enter a valid stock ticker from the Dow 30." << endl;
-    cout << "Refer to \'cnbc.com/dow-30\' for available stocks." << endl;
+    cout << "Refer to \'cnbc.com/dow-30\' for available stocks." << endl << endl;
     cout << "Enter all the stocks you want to search. Type \"DONE\" when you are finished." << endl;
 
     string ticker;
@@ -78,9 +78,9 @@ int main() {
     cout << endl
          << "You will now be asked for two dates which will serve as a range in which your data will be searched"
          << endl;
-    cout << "Data is available from 2017-04-03 to 2022-03-31. Only valid ranges are accepted." << endl;
+    cout << "Data is available from 2017-04-03 to 2022-03-31. Only valid ranges are accepted." << endl << endl;
 
-    //TODO: Validate dates and date range
+
     string startDate, endDate;
     check = true;
     while (check) {
@@ -126,7 +126,7 @@ int main() {
             continue;
         }
 
-        //TODO: Check that number of days are valid (can fit in range)
+
         cout << "Please input the number of days you want to search for. (i.e. Top X days with most returns)" << endl;
         cin >> numDays;
 
@@ -148,8 +148,8 @@ int main() {
     MergeSort *mrgSrt = new MergeSort();
     MinHeap *minH = new MinHeap();
 
-    int heapTime;
-    int mergeTime;
+    int heapTime = 0;
+    int mergeTime = 0;
     timer clock;
 
     for (int i = 0; i < Dow30.size(); i++) {
@@ -157,6 +157,7 @@ int main() {
         stockPtr = Dow30.at(i);
         iterStart = stockPtr->dates.find(start);
         iterEnd = stockPtr->dates.find(end);
+        auto tempIter = iterStart;
         valid = true;
         check = false;
 
@@ -172,10 +173,11 @@ int main() {
                 //map<int, DayData> copyOfDates = Dow30.at(index)->returnDates();
                 //map<int, DayData>::iterator copyIter = copyOfDates.begin();
 
-                iterStart = stockPtr->dates.find(start);
+                iterStart = tempIter;
 
                 int daysWithinRange = 0;
 
+                clock.reset();
                 clock.start();
                 for (; iterStart != iterEnd; ++iterStart) {
 
@@ -194,8 +196,9 @@ int main() {
                 if (numDays < daysWithinRange) {
 
                     //MERGE SORT
-                    iterStart = stockPtr->dates.find(start);
+                    iterStart = tempIter;
 
+                    clock.reset();
                     clock.start();
                     for (; iterStart != iterEnd; ++iterStart) {
 
@@ -222,10 +225,11 @@ int main() {
 
                 //HEAP SORT
 
-                iterStart = stockPtr->dates.find(start);
+                iterStart = tempIter;
 
                 int daysWithinRange = 0;
 
+                clock.reset();
                 clock.start();
                 for (; iterStart != iterEnd; ++iterStart) {
 
@@ -244,8 +248,9 @@ int main() {
 
 
                     //MERGE SORT
-                    iterStart = stockPtr->dates.find(start);
+                    iterStart = tempIter;
 
+                    clock.reset();
                     clock.start();
                     for (; iterStart != iterEnd; ++iterStart) {
 
@@ -270,10 +275,11 @@ int main() {
                 }
             } else if (menuSelection == 3) {
 
-                iterStart = stockPtr->dates.find(start);
+                iterStart = tempIter;
 
                 int daysWithinRange = 0;
 
+                clock.reset();
                 clock.start();
                 for (; iterStart != iterEnd; ++iterStart) {
 
@@ -293,8 +299,9 @@ int main() {
 
                 if (numDays < daysWithinRange) {
                     //MERGE SORT
-                    iterStart = stockPtr->dates.find(start);
+                    iterStart = tempIter;
 
+                    clock.reset();
                     clock.start();
                     for (; iterStart != iterEnd; ++iterStart) {
 
@@ -319,10 +326,11 @@ int main() {
             }
             else if (menuSelection == 4) {
 
-                iterStart = stockPtr->dates.find(start);
+                iterStart = tempIter;
 
                 int daysWithinRange = 0;
 
+                clock.reset();
                 clock.start();
                 for (; iterStart != iterEnd; ++iterStart) {
 
@@ -339,8 +347,9 @@ int main() {
 
                 if (numDays < daysWithinRange) {
                     //MERGE SORT
-                    iterStart = stockPtr->dates.find(start);
+                    iterStart = tempIter;
 
+                    clock.reset();
                     clock.start();
                     for (; iterStart != iterEnd; ++iterStart) {
 
@@ -367,10 +376,10 @@ int main() {
 
     if(!exceed) {
 
-        clock.reset();
-        clock.start();
         cout << endl << "HEAP SORT:" << endl;
         if (menuSelection == 1 || menuSelection == 3) {
+            clock.reset();
+            clock.start();
             for (int i = 1; i <= numDays; i++) {
 
                 pair<float, DayData> temp = maxH->Extract();
@@ -381,7 +390,10 @@ int main() {
             clock.stop();
             heapTime += clock.getTime();
             cout << endl << "Time: " << heapTime << " ms" << endl;
+            clock.reset();
         } else {
+            clock.reset();
+            clock.start();
             for (int i = 1; i <= numDays; i++) {
 
                 pair<float, DayData> temp = minH->Extract();
@@ -424,6 +436,10 @@ int main() {
         cout << "Program terminated: invalid input!" << endl;
     }
 
+    //call destructors
+    delete mrgSrt;
+    delete maxH;
+    delete minH;
 
 
     return 0;

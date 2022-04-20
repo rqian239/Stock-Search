@@ -65,6 +65,12 @@ void MinHeap::HeapifyDown(int rootIndex) {
 	}
 }
 
+MinHeap::~MinHeap() {
+
+    vec.clear();
+
+}
+
 
 
 
@@ -136,5 +142,11 @@ void MaxHeap::HeapifyUp(int rootIndex) {
 	else {
 		return;
 	}
+
+}
+
+MaxHeap::~MaxHeap() {
+
+    vec.clear();
 
 }

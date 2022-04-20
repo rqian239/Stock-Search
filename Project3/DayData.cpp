@@ -9,7 +9,7 @@ DayData::DayData(string ticker, int date, float open, float close, float high, f
     this->high = high;
     this->low = low;
     percentReturn = ((close - open) / open) * 100;
-    percentNetChange = ((high - low) / low) * 100;
+    percentNetChange = std::abs(((high - low) / low) * 100);
 
 }
 

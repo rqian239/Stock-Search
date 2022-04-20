@@ -294,7 +294,6 @@ int main() {
                 heapTime += clock.getTime();
                 clock.reset();
 
-                //TODO: Heap destructor and MERGESORT DESTRUCTOR?
 
 
                 if (numDays < daysWithinRange) {
@@ -377,7 +376,7 @@ int main() {
     if(!exceed) {
 
         cout << endl << "HEAP SORT:" << endl;
-        if (menuSelection == 1 || menuSelection == 3) {
+        if (menuSelection == 1) {
             clock.reset();
             clock.start();
             for (int i = 1; i <= numDays; i++) {
@@ -391,7 +390,24 @@ int main() {
             heapTime += clock.getTime();
             cout << endl << "Time: " << heapTime << " ms" << endl;
             clock.reset();
-        } else {
+        }
+        else if(menuSelection == 3){
+            clock.reset();
+            clock.start();
+            for (int i = 1; i <= numDays; i++) {
+
+                pair<float, DayData> temp = maxH->Extract();
+                cout << i << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentNetChange<< "%" << endl;
+
+            }
+            clock.stop();
+            heapTime += clock.getTime();
+            cout << endl << "Time: " << heapTime << " ms" << endl;
+            clock.reset();
+        }
+
+        else if(menuSelection == 2) {
             clock.reset();
             clock.start();
             for (int i = 1; i <= numDays; i++) {
@@ -405,12 +421,26 @@ int main() {
             heapTime += clock.getTime();
             cout << endl << "Time: " << heapTime << " ms" << endl;
         }
+        else if(menuSelection == 4){
+            clock.reset();
+            clock.start();
+            for (int i = 1; i <= numDays; i++) {
+
+                pair<float, DayData> temp = minH->Extract();
+                cout << i << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
+
+            }
+            clock.stop();
+            heapTime += clock.getTime();
+            cout << endl << "Time: " << heapTime << " ms" << endl;
+        }
 
         clock.reset();
         clock.start();
         mrgSrt->Sort();
-        if (menuSelection == 1 || menuSelection == 3) {
-            cout << endl << "MERGE SORT:" << endl;
+        cout << endl << "MERGE SORT:" << endl;
+        if (menuSelection == 1) {
             for (int i = 1; i <= numDays; i++) {
                 pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
                 cout << i << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
@@ -420,8 +450,8 @@ int main() {
             clock.stop();
             mergeTime += clock.getTime();
             cout << endl << "Time: " << mergeTime << " ms" << endl;
-        } else {
-            cout << endl << "MERGE SORT:" << endl;
+        }
+        else if(menuSelection == 2) {
             for (int i = 0; i < numDays; i++) {
                 pair<float, DayData> temp = mrgSrt->vec.at(i);
                 cout << i + 1 << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
@@ -431,6 +461,32 @@ int main() {
             clock.stop();
             mergeTime += clock.getTime();
             cout << endl << "Time: " << mergeTime << " ms" << endl;
+        }
+        else if(menuSelection == 3){
+            for (int i = 1; i <= numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
+                cout << i << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
+
+            }
+            clock.stop();
+            mergeTime += clock.getTime();
+            cout << endl << "Time: " << mergeTime << " ms" << endl;
+
+
+        }
+        else if(menuSelection == 4){
+
+            for (int i = 0; i < numDays; i++) {
+                pair<float, DayData> temp = mrgSrt->vec.at(i);
+                cout << i + 1 << ". " << temp.second.ticker << " " << convertIntDateToString(temp.second.date) << " ";
+                cout << fixed << setprecision(5) << temp.second.percentNetChange << "%" << endl;
+
+            }
+            clock.stop();
+            mergeTime += clock.getTime();
+            cout << endl << "Time: " << mergeTime << " ms" << endl;
+
         }
     } else {
         cout << "Program terminated: invalid input!" << endl;

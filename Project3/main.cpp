@@ -148,8 +148,8 @@ int main() {
     MergeSort *mrgSrt = new MergeSort();
     MinHeap *minH = new MinHeap();
 
-    int heapTime;
-    int mergeTime;
+    int heapTime = 0;
+    int mergeTime = 0;
     timer clock;
 
     for (int i = 0; i < Dow30.size(); i++) {

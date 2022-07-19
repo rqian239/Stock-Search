@@ -9,9 +9,7 @@ void MergeSort::Sort() {
     mergeSort(vec, 0, vec.size() - 1);
 }
 MergeSort::~MergeSort() {
-
     vec.clear();
-
 }
 
 
@@ -58,8 +56,6 @@ void MergeSort::merge(vector<pair<float, DayData>>& input, int left, int middle,
     }
 
     delete[] temp;
-
-
 }
 void MergeSort::mergeSort(vector<pair<float, DayData>>& input, int left, int right) {
     if (left < right) {

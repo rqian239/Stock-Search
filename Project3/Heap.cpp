@@ -1,40 +1,25 @@
 #include "Heap.h"
 #include <math.h>
 
-/* ====== MIN HEAP ====== */
-pair<float, DayData> MinHeap::Extract() {
 
-	pair<float, DayData> max = vec[0];
+/* ====== HEAP ======*/
+pair<float, DayData> Heap::Extract() {
+
+	pair<float, DayData> top = vec[0];
 	vec[0] = vec[vec.size() - 1];
 	vec.pop_back();
 	HeapifyDown(0);
-	return max;
+	return top;
 }
-void MinHeap::Insert(pair<float, DayData> data) {
-	//pushback, then heapify up
+void Heap::Insert(pair<float, DayData> data) {
 	vec.push_back(data);
 	HeapifyUp(vec.size() - 1);
-
+}
+Heap::~Heap() {
+	vec.clear();
 }
 
-void MinHeap::HeapifyUp(int rootIndex) {
-	int parent = floor((rootIndex - 1) / 2);
-
-	if (rootIndex == 0) {
-		return;
-	}
-	else if (vec[parent].first > vec[rootIndex].first){
-		pair<float, DayData> temp = vec[parent];
-	  vec[parent] = vec[rootIndex];
-	  vec[rootIndex] = temp;
-	  HeapifyUp(parent);
-	}
-	else {
-		return;
-	}
-
-}
-
+/* ====== MIN HEAP ====== */
 void MinHeap::HeapifyDown(int rootIndex) {
 
 	int leftIndex = rootIndex * 2 + 1;
@@ -64,33 +49,25 @@ void MinHeap::HeapifyDown(int rootIndex) {
 		HeapifyDown(minChildIndex);
 	}
 }
+void MinHeap::HeapifyUp(int rootIndex) {
+	int parent = floor((rootIndex - 1) / 2);
 
-MinHeap::~MinHeap() {
-
-    vec.clear();
+	if (rootIndex == 0) {
+		return;
+	}
+	else if (vec[parent].first > vec[rootIndex].first){
+		pair<float, DayData> temp = vec[parent];
+	  vec[parent] = vec[rootIndex];
+	  vec[rootIndex] = temp;
+	  HeapifyUp(parent);
+	}
+	else {
+		return;
+	}
 
 }
-
-
-
-
-
-
 
 /* ====== MAX HEAP ====== */
-pair<float, DayData> MaxHeap::Extract() {
-	pair<float, DayData> min = vec[0];
-	vec[0] = vec[vec.size() - 1];
-	vec.pop_back();
-	HeapifyDown(0);
-	return min;
-}
-void MaxHeap::Insert(pair<float, DayData> data) {
-	//pushback, then heapify up
-	vec.push_back(data);
-	HeapifyUp(vec.size() - 1);
-
-}
 void MaxHeap::HeapifyDown(int rootIndex) {
 
 	int leftIndex = rootIndex * 2 + 1;
@@ -126,7 +103,6 @@ void MaxHeap::HeapifyDown(int rootIndex) {
 		HeapifyDown(maxChildIndex);  //call heapify down now on the child element after     the swap
 	}
 }
-
 void MaxHeap::HeapifyUp(int rootIndex) {
 	int parent = floor((rootIndex - 1) / 2);
 
@@ -145,8 +121,3 @@ void MaxHeap::HeapifyUp(int rootIndex) {
 
 }
 
-MaxHeap::~MaxHeap() {
-
-    vec.clear();
-
-}

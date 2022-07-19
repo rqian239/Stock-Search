@@ -6,33 +6,37 @@
 #include <utility>
 using namespace std;
 
-//if looking for highest returns we use a max heap
-//if looking for lowest returns we use a min heap
-//if looking for highest net chanlge we use max heap
-//if looking for lowest net change we use min heap
+//highest returns = max heap
+//lowest returns = min heap
+//highest net change = max heap
+//lowest net change = min heap
 
 
-class MinHeap {
 
+class Heap {
+
+protected:
 	vector<pair<float, DayData>> vec;
 
 public:
 	pair<float, DayData> Extract();
 	void Insert(pair<float, DayData> data);
-	void HeapifyDown(int rootIndex);
-	void HeapifyUp(int rootIndex);
-    ~MinHeap();
+
+	virtual void HeapifyDown(int rootIndex) = 0;
+	virtual void HeapifyUp(int rootIndex) = 0;
+
+	~Heap();
 };
 
-class MaxHeap {
 
-	vector<pair<float, DayData>> vec;
+struct MinHeap : public Heap {
 
-public:
-	pair<float, DayData> Extract();
-	void Insert(pair<float, DayData> data);
 	void HeapifyDown(int rootIndex);
 	void HeapifyUp(int rootIndex);
-    ~MaxHeap();
+};
 
+struct MaxHeap : public Heap {
+
+	void HeapifyDown(int rootIndex);
+	void HeapifyUp(int rootIndex);
 };

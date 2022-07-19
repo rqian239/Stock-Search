@@ -9,17 +9,13 @@ using namespace std;
 class Stock {
 
     string ticker;
+    map<int, DayData> dates;
 
 public:
- 
-    map<int, DayData> dates;     // MAKE PRIVATE
-
-
     Stock();
     Stock(string ticker);
-    
+   
     void AddDate(int date, DayData data);
-    
     string ReturnTicker();
     map<int, DayData>& ReturnDates();      
    

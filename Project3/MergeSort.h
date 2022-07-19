@@ -5,15 +5,15 @@
 #include <utility>
 #include "Stock.h"
 
-struct MergeSort {
+class MergeSort {
 
 	vector<pair<float, DayData>> vec;
 
 public:
 	void Insert(pair<float, DayData> data);
 	void Sort();
+	vector<pair<float, DayData>>& GetVec();
     ~MergeSort();
-
 
 private:
 	void merge(vector<pair<float, DayData>>& input, int left, int middle, int right);

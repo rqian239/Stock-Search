@@ -144,8 +144,8 @@ int MenuSelection(int& numDays, int numStocks) {
 }
 void SortHp(bool isPercentReturn, Stock* stockPtr, pair<int, int> dateRange, Heap* heap) {
 
-    map<int, DayData>::iterator iterStart = stockPtr->dates.find(dateRange.first);
-    map<int, DayData>::iterator iterEnd = stockPtr->dates.find(dateRange.second);
+    map<int, DayData>::iterator iterStart = stockPtr->ReturnDates().find(dateRange.first);
+    map<int, DayData>::iterator iterEnd = stockPtr->ReturnDates().find(dateRange.second);
     
     for (; iterStart != iterEnd; ++iterStart) {
 
@@ -164,8 +164,8 @@ void SortHp(bool isPercentReturn, Stock* stockPtr, pair<int, int> dateRange, Hea
 }
 void SortMrg(bool isPercentReturn, Stock* stockPtr, pair<int, int> dateRange, MergeSort* mrgSrt) {
 
-    map<int, DayData>::iterator iterStart = stockPtr->dates.find(dateRange.first);
-    map<int, DayData>::iterator iterEnd = stockPtr->dates.find(dateRange.second);
+    map<int, DayData>::iterator iterStart = stockPtr->ReturnDates().find(dateRange.first);
+    map<int, DayData>::iterator iterEnd = stockPtr->ReturnDates().find(dateRange.second);
 
     for (; iterStart != iterEnd; ++iterStart) {
         pair<float, DayData> temp;
@@ -206,7 +206,7 @@ void PrintMerge(MergeSort* mrgSrt, int menuSelection, int numDays) {
     if (menuSelection == 1 || menuSelection == 3) {
 
         for (int i = 1; i <= numDays; i++) {
-            pair<float, DayData> temp = mrgSrt->vec.at(mrgSrt->vec.size() - i);
+            pair<float, DayData> temp = mrgSrt->GetVec().at(mrgSrt->GetVec().size() - i);
             cout << i << ". " << temp.second.ticker << " " << ConvertIntDateToString(temp.second.date) << " ";
 
             if (isPercentReturn) {
@@ -220,7 +220,7 @@ void PrintMerge(MergeSort* mrgSrt, int menuSelection, int numDays) {
     else {    //Print Backwards
 
         for (int i = 0; i < numDays; i++) {
-            pair<float, DayData> temp = mrgSrt->vec.at(i);
+            pair<float, DayData> temp = mrgSrt->GetVec().at(i);
             cout << i + 1 << ". " << temp.second.ticker << " " << ConvertIntDateToString(temp.second.date) << " ";
 
             if (isPercentReturn) {

@@ -8,6 +8,9 @@ void MergeSort::Insert(pair<float, DayData> data) {
 void MergeSort::Sort() {
     mergeSort(vec, 0, vec.size() - 1);
 }
+vector<pair<float, DayData>>& MergeSort::GetVec() {
+    return vec;
+}
 MergeSort::~MergeSort() {
     vec.clear();
 }

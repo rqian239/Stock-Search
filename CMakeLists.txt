@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.19)
 project(Stock_Search)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -15,4 +15,5 @@ add_executable(Stock_Search
         Project3/main.cpp
         Project3/MergeSort.cpp
         Project3/Stock.cpp
-        Project3/Stock.h)
+        Project3/Timer.cpp
+        Project3/Timer.h)

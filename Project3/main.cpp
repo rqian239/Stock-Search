@@ -7,23 +7,39 @@
 #include <time.h>
 #include <utility>
 #include "Functions.h"
+#include "Timer.h"
 
 
 
 using namespace std;
 
+/*
+ * This is the main execution for the Stock Search project. A user will be prompted to input a valid stocks
+ * from the Dow 30, select a date range, and then select criteria to search for as well as the number of days they
+ * want to view. The program will sort the data from the days within the range and return the
+ * number of days specified that best fit the criteria (out of the inputted stock tickers). In other words,
+ * this application allows you to see the best (or worst) performing days of a particular stock(s) for a given criteria
+ * within a date range.
+ */
 
 int main() {
 
-    bool repeat = true;
+    bool repeat = true; // This determines if the user wants to rerun the program
     while(repeat) {
 
-        system("CLS");
+        //system("CLS");
+
+        // Print instructions and welcome message
         PrintWelcomeMsg();
 
+        // Stores Stock objects specified by the user
         vector<Stock*> chosenStocks;
         EnterStocks(chosenStocks);
 
+        if(chosenStocks.size() < 1){
+            repeat = false;
+            break;
+        }
 
         pair<int, int> dateRange = EnterDates(chosenStocks);
 
@@ -31,6 +47,8 @@ int main() {
         int menuSelection = MenuSelection(numDays, chosenStocks.size());
         bool isPercentReturn = false;
         bool isMaxHeap = false;
+
+
         if (menuSelection == 1 || menuSelection == 2) {
             isPercentReturn = true;
         }
@@ -76,7 +94,7 @@ int main() {
 
 
 
-        //Heap Extract
+        // Perform Heap Extract and return sorted data
         cout << endl << "HEAP SORT:" << endl;
         clock.Reset();
         clock.Start();
@@ -91,7 +109,7 @@ int main() {
         cout << endl << "Time: " << heapTime << " ms" << endl;
         clock.Reset();
 
-        //Merge Extract
+        // Perform Merge Sort and return sorted data
         cout << endl << "Please wait while we calculate Merge Sort..." << endl;
         clock.Reset();
         clock.Start();
@@ -126,6 +144,15 @@ int main() {
                 valid = false;
             }
         }
+
+        for(Stock* stock : chosenStocks){
+            delete stock;
+        }
+
+        chosenStocks.clear();
     }
+
+    cout << "Thanks for using our program! Have a nice day!" << endl;
+
     return 0;
 }

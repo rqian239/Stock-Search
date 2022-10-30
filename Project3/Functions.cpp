@@ -75,7 +75,7 @@ pair<int, int> EnterDates(vector<Stock*>& chosenStocks) {
         }
         start = DateConverter(startDate);
         if (stockPtr->ReturnDates().find(start) == stockPtr->ReturnDates().end()) {    //not a valid date
-            cout << "You chose a start date when the market was closed!" << endl;
+            cout << "You chose an invalid date! (Either the market was closed or this date doesn't exist!)" << endl;
             continue;
         }
 
@@ -90,7 +90,7 @@ pair<int, int> EnterDates(vector<Stock*>& chosenStocks) {
         }
         end = DateConverter(endDate);
         if (stockPtr->ReturnDates().find(end) == stockPtr->ReturnDates().end()) {    //not a valid date
-            cout << "You chose an end date when the market was closed!" << endl;
+            cout << "You chose an invalid date! (Either the market was closed or this date doesn't exist!)" << endl;
             continue;
         }
 

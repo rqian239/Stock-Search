@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/ADMIN/CLionProjects/Stock-Search
+# Install script for directory: C:/Users/r_qia/OneDrive/Documents/Programming Projects/Stock-Search
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Program Files/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Program Files (x86)/mingw-w64/i686-7.3.0-posix-dwarf-rt_v5-rev0/mingw32/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/ADMIN/CLionProjects/Stock-Search/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/r_qia/OneDrive/Documents/Programming Projects/Stock-Search/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

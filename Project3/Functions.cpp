@@ -11,7 +11,9 @@ void PrintWelcomeMsg() {
         << endl << endl;
 
     cout << "Please enter a valid stock ticker from the Dow 30." << endl;
-    cout << "Refer to \'cnbc.com/dow-30\' for available stocks." << endl << endl;
+    cout << "Here are the available stock tickers: 'APPL', 'AMGN', 'AXP', 'BA', 'CAT', 'CRM', 'CSCO', 'CVX', 'DIS', \n"
+            "'GS', 'HD', 'HON', 'IBM', 'INTC', 'JNJ', 'JPM', 'KO', 'MCD', 'MMM', 'MRK', 'MSFT', 'NKE', 'PG', 'TRV', \n"
+            "'UNH', 'V', 'VZ', 'WBA', 'WMT'." << endl << endl;
     cout << "Enter all the stocks you want to search. Type \"DONE\" when you are finished." << endl;
 }
 void EnterStocks(vector<Stock*>& chosenStocks) {

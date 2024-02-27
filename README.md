@@ -17,7 +17,7 @@ There are two main ways to build and run Stock-Search: in the CLion IDE or in yo
 2.  Open the project in your CLion IDE (I am using version 2021.1.1).
 3.  CLion should automatically load the project and automatically run the CMake configuration.
 4.  Check your run/debug configurations in the top-left. There should be a CMake Application configuration created by CLion.
-5.  Build the project ('Ctrl+F9' or 'Cmd+F9') and run the configuration 'Shift+F10'.
+5.  Build the project ('Ctrl+F9' or 'Cmd+F9') and run the configuration ('Shift+F10').
 
 
 ## Build/Run in the Terminal

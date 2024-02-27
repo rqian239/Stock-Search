@@ -17,3 +17,8 @@ add_executable(Stock_Search
         Project3/Stock.cpp
         Project3/Timer.cpp
         Project3/Timer.h)
+
+add_custom_command(TARGET Stock_Search POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E echo "Copying excel directory..."
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/excel $<TARGET_FILE_DIR:Stock_Search>/excel)

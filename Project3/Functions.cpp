@@ -237,7 +237,7 @@ void PrintMerge(MergeSort* mrgSrt, int menuSelection, int numDays) {
 
 void LoadData(string ticker, vector<Stock*>& Dow30, int index) {
 
-    string filePath = "../excel/" + ticker + ".csv";
+    string filePath = "./excel/" + ticker + ".csv";
 
     ifstream input(filePath);
 

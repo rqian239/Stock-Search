@@ -118,8 +118,8 @@ int MenuSelection(int& numDays, int numStocks) {
         cout << "Please select one of the following criteria to search for." << endl;
         cout << "1. Most Returns" << endl;
         cout << "2. Least Returns (Most Losses)" << endl;
-        cout << "3. Most Net Change (Measure for Volatility)" << endl;
-        cout << "4. Least Net Change (Measure for Stability)" << endl;
+        cout << "3. Highest Intraday Range (Measure for Volatility)" << endl;
+        cout << "4. Lowest Intraday Range (Measure for Stability)" << endl;
         cin >> menuSelection;
         if (menuSelection <= 0 || menuSelection > 4) {
             cout << "Invalid input!" << endl;

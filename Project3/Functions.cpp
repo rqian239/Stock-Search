@@ -28,7 +28,7 @@ void EnterStocks(vector<Stock*>& chosenStocks) {
 
 
         //Check if this is a valid stock
-        string filePath = "../excel/" + ticker + ".csv";
+        string filePath = "./excel/" + ticker + ".csv";
         ifstream excel(filePath);
 
         if (excel.is_open()) {

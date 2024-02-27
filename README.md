@@ -1,7 +1,7 @@
 # Stock-Search
 Created by Richard Qian, Dylan DePasquale, and Douglas Ta
 
-Stock Search is an easy-to-use, command-line application to search for the notable days of a given stock based on a couple of criteria: best/worst returns and largest/smallest intraday range.
+Stock Search is an easy-to-use, command-line application for searching notable days of given stocks based on a couple of criteria: best/worst returns and largest/smallest intraday range.
 
 By default, you may select stocks from the Dow 30 and conduct your search by following the instructions in the CLI.
 
